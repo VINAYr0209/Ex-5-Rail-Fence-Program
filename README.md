@@ -1,78 +1,58 @@
-# Ex-5-Rail-Fence-Program
+Ex-5 Rail-Fence-Program
 IMPLEMENTATION OF RAIL FENCE – ROW & COLUMN TRANSFORMATION TECHNIQUE
-
 AIM:
 To write a C program to implement the rail fence transposition technique.
-
 DESCRIPTION:
 In the rail fence cipher, the plain text is written downwards and diagonally on successive "rails" of an imaginary fence, then moving up when we reach the bottom rail. When we reach the top rail, the message is written downwards again until the whole plaintext is written out. The message is then read off in rows.
 
 ALGORITHM:
-STEP-1: Read the Plain text. 
-
-STEP-2: Arrange the plain text in row columnar matrix format. STEP-3: Now read the keyword depending on the number of columns of the plain text. STEP-4: Arrange the characters of the keyword in sorted order and the corresponding columns of the plain text. STEP-5: Read the characters row wise or column wise in the former order to get the cipher text.
+STEP-1: Read the Plain text. STEP-2: Arrange the plain text in row columnar matrix format. STEP-3: Now read the keyword depending on the number of columns of the plain text. STEP-4: Arrange the characters of the keyword in sorted order and the corresponding columns of the plain text. STEP-5: Read the characters row wise or column wise in the former order to get the cipher text.
 
 PROGRAM
-
 #include <stdio.h>
 #include <string.h>
-#define MAX 1000
-#define RAILS 100
+
 int main()
 {
-    char text[MAX];
-    char matrix[RAILS][MAX] = {0};
+    char text[100], rail[10][100];
+    int i, j, k = 0, row = 0, dir = 1;
+    int rails, len;
 
-    int key, row = 0;
-    int direction = 1;
-    int i, j, len;
+    printf("Enter Plain Text: ");
+    scanf("%99s", text);
 
-    printf("Enter the Plain Text: ");
-    fgets(text, MAX, stdin);
+    printf("Enter Number of Rails: ");
+    scanf("%d", &rails);
 
-    text[strcspn(text, "\n")] = '\0';
     len = strlen(text);
 
-    printf("Enter the Number of Rails: ");
-    scanf("%d", &key);
-
-    if (key < 1 || key > RAILS || key > len)
-    {
-        printf("Invalid number of rails!\n");
-        return 1;
-    }
+    for (i = 0; i < rails; i++)
+        for (j = 0; j < len; j++)
+            rail[i][j] = '\0';
 
     for (i = 0; i < len; i++)
     {
-        matrix[row][i] = text[i];
+        rail[row][i] = text[i];
 
         if (row == 0)
-            direction = 1;
-        else if (row == key - 1)
-            direction = -1;
+            dir = 1;
+        else if (row == rails - 1)
+            dir = -1;
 
-        row += direction;
+        row += dir;
     }
 
-    printf("\nEncrypted Cipher Text: ");
+    printf("Cipher Text: ");
 
-    for (i = 0; i < key; i++)
-    {
+    for (i = 0; i < rails; i++)
         for (j = 0; j < len; j++)
-        {
-            if (matrix[i][j] != '\0')
-                printf("%c", matrix[i][j]);
-        }
-    }
+            if (rail[i][j] != '\0')
+                printf("%c", rail[i][j]);
 
-    printf("\n");
     return 0;
 }
 OUTPUT
-Enter the Plain Text: WEAREDISCOVEREDFLEEATONCE
+<img width="1600" height="907" alt="WhatsApp Image 2026-11-04 at 10 25 52 AM" src="https://github.com/user-attachments/assets/c4b25293-19e4-4c0d-8f3c-c1bcf2a8a706" />
 
-Enter the Number of Rails: 3
-
-Encrypted Cipher Text: WECRLTEERDSOEEFEAOCAIVDEN
 RESULT
 Thus, the C program to implement the Rail Fence Transposition Encryption Technique was successfully written, compiled and executed, and the plaintext was converted into ciphertext using the specified number of rails.
